@@ -6,13 +6,13 @@ import Todo from "./models/Todo.js";
 import morgan from "morgan";
 
 await connect();
-const port = process.env.PORT || 8089; // Ensure PORT is set correctly
+const port = process.env.PORT || 8089;
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // Ensure this is set to the correct frontend URL
+    origin: process.env.CLIENT_URL,
   })
 );
 app.use(express.json());
