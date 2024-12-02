@@ -4,6 +4,8 @@ import "dotenv/config";
 import connect from "./libs/database.js";
 import Todo from "./models/Todo.js";
 import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
 
 await connect();
 const port = process.env.PORT || 8089;
@@ -18,6 +20,14 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 app.get("/todos", async (req, res) => {
   try {
     const todos = await Todo.find();
